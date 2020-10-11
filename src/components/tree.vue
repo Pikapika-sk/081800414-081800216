@@ -100,28 +100,32 @@ export default {
       this.inputValue = null;
     },
     createTree() {
-      this.data = { label: "", children: [] };
-      var trees = this.arr.split("\n\n\n");
+      this.data = { label: "", children: [] };//清空树的内容
+      var trees = this.arr.split("\n\n\n");//按行分割
       trees.forEach((treeText) => {
         let lines = treeText.split("\n");
         if (lines[0].slice(0, 2) !== "导师") {
-          alert("输入错误请重新输入");
+          alert("输入错误请重新输入");//第一行前两个字不是导师就提示错误
           return;
         }
-        this.data.label = lines[0].slice(3, lines[0].length);
-        var flag = false;
+        this.data.label = lines[0].slice(3, lines[0].length);//取出导师作为父节点
+        var flag = false;//判断是否已经读到个人信息部分
         for (var j = 1; j < lines.length; ++j) {
+          //为空行跳过
           if (lines[j] === "") {
             flag = true;
             //console.log(flag);
             continue;
           }
           if (!flag) {
-            var loc = lines[j].indexOf("：");
+          //标记“：”，取出“：”之前的字段
+          var loc = lines[j].indexOf("：");
             var it = {
               label: lines[j].slice(0, loc),
               children: [],
             };
+          //之后每次读到一个“、”就做一次赋值处理
+          //注意最后一个人名后面是没有“、”的，要做特别处理
             var n = 0;
             var last = loc;
             for (var i = loc; i < lines[j].length; ++i) {
@@ -138,18 +142,18 @@ export default {
                 last = i;
               }
             }
-            // console.log(lines[j]);
             this.data.children.push(it);
-          } else {
+          }
+          //进入对个人信息的处理 
+          else {
             var flag2 = false;
-            //  console.log(lines[j]);
             loc = lines[j].indexOf("：");
+            //取到人名
             var name = lines[j].slice(0, loc);
             name = String(name);
-            // console.log(name);
+            //没想到好办法，只能遍历所有子结点来找匹配人名
             for (var k = 0; k < this.data.children.length; ++k) {
               for (var m = 0; m < this.data.children[k].children.length; ++m) {
-                //console.log(this.data.children[k].children[m].label);
                 this.data.children[k].children[m].label = String(
                   this.data.children[k].children[m].label
                 );
@@ -159,11 +163,13 @@ export default {
                     label: lines[j].slice(loc + 1, lines[j].length),
                     children: [],
                   };
+                  //找到就 push 到人名，当作人名的子结点
                   this.data.children[k].children[m].children.push(skill);
                   flag2 = true;
                 }
               }
             }
+            //找不到人名说明输入有误
             if (!flag2) {
               alert('输入学生信息有误，"' + name + '"不在师门树中');
             }
