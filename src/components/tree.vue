@@ -52,33 +52,64 @@ export default {
       var trees = this.arr.split("\n\n\n");
       trees.forEach((treeText) => {
         let lines = treeText.split("\n");
-        if(lines[0].slice(0,2) !== '导师')
-          alert("输入错误请重新输入");
-        this.data.label = lines[0].slice(3,lines[0].length);
+        if (lines[0].slice(0, 2) !== "导师") alert("输入错误请重新输入");
+        this.data.label = lines[0].slice(3, lines[0].length);
+        var flag = false;
         for (var j = 1; j < lines.length; ++j) {
-          var loc = lines[j].indexOf("：");
-          var it = {
-            label: lines[j].slice(0, loc),
-            children: [],
-          };
-          var n = 0;
-          var last = loc;
-          for (var i = loc; i < lines[j].length; ++i) {
-            if (lines[j][i] == "、" || i == lines[j].length - 1) {
-              var str2;
-              if (i == lines[j].length - 1)
-                str2 = lines[j].slice(last + 1, i + 1);
-              else str2 = lines[j].slice(last + 1, i);
-              var it2 = {
-                label: str2,
-                children: [],
-              };
-              it.children[n++] = it2;
-              last = i;
-            }
+          if (lines[j] === "") {
+            flag = true;
+            //console.log(flag);
+            continue;
           }
-          console.log(lines[j]);
-          this.data.children.push(it);
+          if (!flag) {
+            var loc = lines[j].indexOf("：");
+            var it = {
+              label: lines[j].slice(0, loc),
+              children: [],
+            };
+            var n = 0;
+            var last = loc;
+            for (var i = loc; i < lines[j].length; ++i) {
+              if (lines[j][i] == "、" || i == lines[j].length - 1) {
+                var str2;
+                if (i == lines[j].length - 1)
+                  str2 = lines[j].slice(last + 1, i + 1);
+                else str2 = lines[j].slice(last + 1, i);
+                var it2 = {
+                  label: str2,
+                  children: [],
+                };
+                it.children[n++] = it2;
+                last = i;
+              }
+            }
+            // console.log(lines[j]);
+            this.data.children.push(it);
+          } else {
+            //  console.log(lines[j]);
+            loc = lines[j].indexOf("：");
+            var name = lines[j].slice(0, loc);
+            name = String(name);
+            // console.log(name);
+            for (var k = 0; k < this.data.children.length; ++k) {
+              for (var m = 0; m < this.data.children[k].children.length; ++m) {
+                //console.log(this.data.children[k].children[m].label);
+                this.data.children[k].children[m].label = String(
+                  this.data.children[k].children[m].label
+                );
+
+                if (name === this.data.children[k].children[m].label)
+                {
+                  var skill = {
+                    label:lines[j].slice(loc+1,lines[j].length),
+                    children:[]
+                  };
+                  this.data.children[k].children[m].children.push(skill);
+                }
+              }
+            }
+            flag = false;
+          }
         }
       });
     },
