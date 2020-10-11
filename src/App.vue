@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <tree></tree>
-    <div class="note" ></div>
   </div>
 </template>
 
@@ -27,3 +26,4 @@ export default {
 }
 
 </style>
+
