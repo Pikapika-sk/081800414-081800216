@@ -27,7 +27,7 @@
         <div class="div-button" @click="addNode">增加</div>
       </div>
     </div>
-    <button @click="callWindow">增加内容</button>
+    <button @click="callWindow" class = 'rightbutton'>增加内容</button>
     <button @click="createTree" class="midbutton">生成</button>
   </div>
 </template>
@@ -179,17 +179,41 @@ export default {
 <style scoped>
 .showtext {
   width: 50%;
-  height: 500px;
+  height: 350px;
   resize: none;
   font-size: 20px;
   font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑,
     STHeiti, MingLiu;
 }
+.rightbutton{
+  position: absolute;
+  left: 60%;
+  top: 380px;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  vertical-align: baseline;
+
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font: 14px/100% Arial, Helvetica, sans-serif;
+  padding: 0.5em 2em 0.55em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  border-radius: 0.5em;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
 .midbutton {
   position: absolute;
-  left: 46.5%;
+  left: 30%;
 
-  top: 530px;
+  top: 380px;
   display: inline-block;
   zoom: 1;
   *display: inline;
@@ -276,6 +300,7 @@ export default {
   cursor: pointer;
   border-radius: 5px;
   display: inline-block;
-  margin-left: 65px;
+  margin-left: 45px;
+  margin-right: 45px;
 }
 </style>
